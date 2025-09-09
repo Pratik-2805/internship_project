@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Login</h2>
+<form id="loginForm">
+  <input class="form-control my-2" type="email" id="email" placeholder="Email" required>
+  <input class="form-control my-2" type="password" id="password" placeholder="Password" required>
+  <button type="submit" class="btn btn-success">Login</button>
+</form>
+<pre id="output"></pre>
+<script>
+document.getElementById('loginForm').onsubmit = async (e) => {
+  e.preventDefault();
+  let res = await fetch('/api/auth/token/', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ email: email.value, password: password.value })
+  });
+  let data = await res.json();
+  localStorage.setItem('access', data.access);
+  output.textContent = JSON.stringify(data, null, 2);
+};
+</script>
+{% endblock %}

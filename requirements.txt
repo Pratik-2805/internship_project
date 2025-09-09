@@ -1,0 +1,13 @@
+Django>=4.2
+djangorestframework
+djangorestframework-simplejwt
+drf-yasg
+psycopg2-binary
+python-dotenv
+gunicorn
+celery
+redis
+psycopg2-binary
+# flower
+django-jazzmin
+

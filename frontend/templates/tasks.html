@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Tasks</h2>
+<button class="btn btn-info mb-2" onclick="loadTasks()">Load Tasks</button>
+<form id="taskForm">
+  <input class="form-control my-2" type="text" id="title" placeholder="Title" required>
+  <input class="form-control my-2" type="text" id="description" placeholder="Description">
+  <select id="status" class="form-control my-2">
+    <option value="pending">Pending</option>
+    <option value="in-progress">In Progress</option>
+    <option value="completed">Completed</option>
+  </select>
+  <button type="submit" class="btn btn-warning">Add Task</button>
+</form>
+<pre id="output"></pre>
+<script>
+async function loadTasks(){
+  let res = await fetch('/api/tasks/', {
+    headers: {'Authorization':'Bearer ' + localStorage.getItem('access')}
+  });
+  output.textContent = JSON.stringify(await res.json(), null, 2);
+}
+document.getElementById('taskForm').onsubmit = async (e) => {
+  e.preventDefault();
+  let res = await fetch('/api/tasks/', {
+    method:'POST',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer ' + localStorage.getItem('access')},
+    body: JSON.stringify({
+      title: title.value,
+      description: description.value,
+      status: status.value
+    })
+  });
+  output.textContent = JSON.stringify(await res.json(), null, 2);
+};
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Profile</h2>
+<button class="btn btn-info mb-2" onclick="loadProfile()">Load Profile</button>
+<form id="updateForm">
+  <input class="form-control my-2" type="text" id="name" placeholder="New Name">
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>
+<pre id="output"></pre>
+<script>
+async function loadProfile(){
+  let res = await fetch('/api/auth/profile/', {
+    headers: {'Authorization':'Bearer ' + localStorage.getItem('access')}
+  });
+  output.textContent = JSON.stringify(await res.json(), null, 2);
+}
+document.getElementById('updateForm').onsubmit = async (e) => {
+  e.preventDefault();
+  let res = await fetch('/api/auth/profile/', {
+    method:'PUT',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer ' + localStorage.getItem('access')},
+    body: JSON.stringify({ name: name.value })
+  });
+  output.textContent = JSON.stringify(await res.json(), null, 2);
+};
+</script>
+{% endblock %}
