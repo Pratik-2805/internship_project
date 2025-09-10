@@ -32,9 +32,9 @@ class User(AbstractUser):
     name = models.CharField(max_length=150, blank=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []  # no extra required fields
+    REQUIRED_FIELDS = []  
 
-    objects = UserManager()   # ✅ custom manager
+    objects = UserManager()  
 
     def __str__(self):
         return self.email
